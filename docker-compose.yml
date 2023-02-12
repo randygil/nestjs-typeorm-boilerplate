@@ -23,8 +23,8 @@ services:
     ports:
       - '5050:80'
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@rafran.com
-      - PGADMIN_DEFAULT_PASSWORD=rafran
+      - PGADMIN_DEFAULT_EMAIL=admin@nest.com
+      - PGADMIN_DEFAULT_PASSWORD=nest
   postgres:
     image: postgres:13.3
     volumes:
@@ -34,4 +34,4 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=rafran
+      - POSTGRES_DB=nest
