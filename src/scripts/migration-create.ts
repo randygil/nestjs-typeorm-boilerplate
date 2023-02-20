@@ -2,7 +2,7 @@
 
 import { exec } from 'child_process';
 
-const command = `npx typeorm-ts-node-commonjs migration:create ./src/database/migrations/${process.argv[2]}`;
+const command = `npx typeorm-ts-node-commonjs migration:create ./src/database/migrations/${process.argv[2]} ?? 'migrations'`;
 
 (() =>
   exec(command, (error, stdout, stderr) => {

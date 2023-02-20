@@ -1,13 +1,13 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from "@nestjs/common";
 
-import { config } from '../config';
-import { JwtService } from '@nestjs/jwt';
-import { TokenData } from '../types';
-import { hashWithAppKey } from '../utils';
-import { Repository } from 'typeorm';
-import { Roles, User } from '../database/entities/user.entity';
-import { Profile } from '../database/entities/profile.entity';
-import { InjectRepository } from '@nestjs/typeorm';
+import { config } from "../config";
+import { JwtService } from "@nestjs/jwt";
+import { TokenData } from "../types";
+import { hashWithAppKey } from "../utils";
+import { Repository } from "typeorm";
+import { Roles, User } from "../database/entities/user.entity";
+import { Profile } from "../database/entities/profile.entity";
+import { InjectRepository } from "@nestjs/typeorm";
 
 export interface ITokenPayload {
   _id: string;
@@ -23,16 +23,14 @@ export class AuthService {
     @InjectRepository(Profile)
     private readonly profileRepository: Repository<Profile>,
 
-    private jwtService: JwtService,
+    private jwtService: JwtService
   ) {}
 
   async register(
     user: Partial<User>,
-    profile: Partial<Profile>,
+    profile: Partial<Profile>
   ): Promise<User> {
-    console.log('a');
     const p = await this.profileRepository.save(profile);
-
     return await this.userRepository.save({
       ...user,
       profile,
@@ -60,8 +58,6 @@ export class AuthService {
 
   async loginWithEmail(email: string, password: string): Promise<string> {
     const user = await this.userRepository.findOne({
-      // email,
-      // password: hashWithAppKey(password),
       where: {
         email,
         password: hashWithAppKey(password),
@@ -69,12 +65,8 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new HttpException('Invalid credentials', 401);
+      throw new HttpException("Invalid credentials", 401);
     }
-
-    // if (user.status === UserStatus.UNVERIFIED) {
-    //   throw new HttpException('User is not verified', 401);
-    // }
 
     const payload: TokenData = {
       id: user.id,
